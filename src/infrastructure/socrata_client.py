@@ -3,7 +3,7 @@ from src.infrastructure.config import SOCRATA_APP_TOKEN, SECOP_DATASET_ID, MAX_R
 
 
 async def fetch_secop_data():
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=30.0) as client:
         url = f"https://www.datos.gov.co/resource/{SECOP_DATASET_ID}.json"
         
         respuesta = await client.get(

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from src.infrastructure.config import MAX_ROWS_LIMIT
 from src.infrastructure.socrata_client import fetch_secop_data  
+from src.application.procesador_contratos import procesar_contratos_secop
 
 app = FastAPI(title='Kalman SECOP Core')
 
@@ -12,4 +13,6 @@ def read_root():
     
 @app.get('/api/v1/contratos')
 async def obtener_contratos():
-    return await fetch_secop_data()
+    datos_crudos = await fetch_secop_data()
+    total, contratos = procesar_contratos_secop(datos_crudos)
+    return { 'total_nacional': total, 'total_atlantico': contratos}
