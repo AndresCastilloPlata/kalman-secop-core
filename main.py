@@ -11,8 +11,8 @@ def read_root():
             'limite_datos_permitidos': MAX_ROWS_LIMIT
             }
     
-@app.get('/api/v1/contratos')
-async def obtener_contratos():
+@app.get('/api/v1/contratos/{departamento}')
+async def obtener_contratos(departamento):
     datos_crudos = await fetch_secop_data()
-    total, contratos = procesar_contratos_secop(datos_crudos)
-    return { 'total_nacional': total, 'total_atlantico': contratos}
+    total, contratos = procesar_contratos_secop(datos_crudos, departamento)
+    return { 'total_nacional': total, 'total_departamento': contratos}
